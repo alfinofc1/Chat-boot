@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@/Context/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,9 +12,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 const roboto = Roboto({
-  variable:"--font-roboto",
-  subsets:["latin"]
-})
+  variable: "--font-roboto",
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: "Chat Bot",
@@ -22,11 +23,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased dark:bg-[#212121]`}
       >
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
