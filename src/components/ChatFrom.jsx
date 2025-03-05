@@ -39,7 +39,7 @@ const ChatForm = () => {
   }, []);
 
   return (
-    <div className="absolute bottom-6 right-1/2 transform translate-x-1/2 mx-4 w-full max-w-2xl mt-8">
+    <div className="absolute bottom-6 right-1/2 transform translate-x-1/2 w-full max-w-2xl mt-8">
       <form className="border border-gray-300 rounded-xl shadow-sm py-4 px-3">
         <textarea
           ref={textareaRef}

@@ -14,10 +14,10 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex relative">
+      <div className="flex relative h-screen">
         <div
           id="menubar"
-          className={`w-56 lg:w-64 h-screen  py-5 px-3 border-r bg-gray-200 dark:bg-[#171717] border-gray-400 dark:border-gray-800 ${
+          className={`w-56 lg:w-64 h-full  py-5 px-3 border-r bg-gray-200 dark:bg-[#171717] border-gray-400 dark:border-gray-800 ${
             menuOpen
               ? "block shadow-2xl shadow-gray-700 md:shadow-sm absolute backdrop-brightness-75  z-50 "
               : "hidden shadow "
@@ -42,15 +42,20 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className={`w-full relative`}>
+        <div className={`w-full relative mx-2`}>
           <Navbar
             handleMenu={handleMenu}
             menuOpen={menuOpen}
             className="mb-6"
           />
-          <div className="message-container container mx-auto">
-            <div className="user-message">
-              <p></p>
+          <div className="message-container container mx-auto relative mt-4">
+            <div className="user-message ">
+              <p>Lorem 
+              </p>
+            </div>
+            <div className="bot-message ">
+              <p>Lorem lorem Lorem lorem Lorem lorem Lorem lorem Lorem lorem Lorem loremLorem lorem Lorem loremLorem lorem Lorem loremLorem lorem Lorem loremLorem lorem Lorem loremLorem lorem Lorem loremLorem lorem Lorem lorem
+              </p>
             </div>
           </div>
           <ChatFrom />
