@@ -4,3 +4,6 @@
   --font-roboto:["var(--font-roboto)"]
 }
 
+.scroll-textarea{
+  scrollbar-width: thin;
+}
