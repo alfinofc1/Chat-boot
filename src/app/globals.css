@@ -4,12 +4,25 @@
   --font-roboto:["var(--font-roboto)"]
 }
 
-.scroll-textarea{
-  scrollbar-width: thin;
+.scrollbar::-webkit-scrollbar-track
+{
+  @apply bg-white dark:bg-[#212121] 
 }
+
+.scrollbar::-webkit-scrollbar
+{
+  @apply w-3 bg-[#b1b3b6] dark:bg-[#303030]
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+	@apply bg-[#b1b3b6] dark:bg-[#303030]
+}
+
+
 .user-message{
-  @apply text-right py-2 px-3 bg-blue-400 w-fit max-w-xl rounded-l-xl rounded-br-xl ml-auto text-gray-200
+  @apply text-right py-2 px-3 bg-blue-400 w-fit max-w-2xl rounded-l-xl rounded-br-xl ml-auto text-gray-200 mb-4
 }
 .bot-message{
-  @apply text-left py-2 px-3 bg-gray-300 dark:bg-gray-600 w-fit max-w-2xl rounded-r-xl rounded-bl-xl mr-auto text-gray-700 mt-4 dark:text-gray-200
+  @apply text-left py-2 px-3 bg-gray-300 dark:bg-[#303030] w-fit max-w-4xl rounded-r-xl rounded-bl-xl mr-auto text-gray-700 mb-4 dark:text-gray-200 
 }

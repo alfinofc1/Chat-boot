@@ -8,7 +8,6 @@ import { ThemeContext } from "@/Context/ThemeProvider";
 
 const Navbar = ({ handleMenu, menuOpen }) => {
   const { theme, toggleTheme} = useContext(ThemeContext);
-  console.log(theme)
 
   return (
     <nav className="w-full flex items-center justify-between py-3 px-4 ">

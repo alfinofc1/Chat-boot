@@ -5,7 +5,7 @@ import { BsGlobe2 } from "react-icons/bs";
 import { IoIosAttach } from "react-icons/io";
 import { BiSend } from "react-icons/bi";
 
-const ChatForm = () => {
+const ChatForm = ({setChatHistory}) => {
   const textareaRef = useRef(null);
   const fileInput = useRef(null);
   const [searchbar, setSearchbar] = useState(false);
@@ -37,16 +37,27 @@ const ChatForm = () => {
       textarea.removeEventListener("input", handleInput);
     };
   }, []);
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const userMessage = textareaRef.current.value.trim();
+    if(!userMessage) return ;
+    textareaRef.current.value=''
+    // set chat in history
+    setChatHistory((prevChat)=> [...prevChat , {role:'user', text: userMessage}])
+    setTimeout(()=>{setChatHistory((prevChat)=> [...prevChat, {role:"bot", text:"Thinking..."}])}, 400)
+  };
   return (
-    <div className="absolute bottom-6 right-1/2 transform translate-x-1/2 w-full max-w-2xl mt-8">
-      <form className="border border-gray-300 rounded-xl shadow-sm py-4 px-3">
+    <div className="w-full max-w-2xl mx-auto rounded-xl">
+      <form
+        onSubmit={handleSubmit}
+        className="border border-gray-300 rounded-xl shadow-sm py-4 px-3 bg-white dark:bg-[#212121]"
+      >
         <textarea
           ref={textareaRef}
           id="my-textarea"
           placeholder="Ask me anything"
           rows={2}
-          className="pb-3 w-full border-none focus:outline-none dark:placeholder:text-gray-300 dark:text-white scroll-textarea resize-none"
+          className="pb-3 w-full border-none focus:outline-none dark:placeholder:text-gray-300 dark:text-white scrollbar resize-none"
         ></textarea>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer select-none">
@@ -82,7 +93,7 @@ const ChatForm = () => {
               </button>
               <input ref={fileInput} type="file" className="hidden" />
             </div>
-            <button type="submit">
+            <button type="submit" className="cursor-pointer">
               <BiSend className="size-7 fill-blue-400" />
             </button>
           </div>
