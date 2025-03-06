@@ -5,11 +5,36 @@ import { IoMdClose } from "react-icons/io";
 import Navbar from "@/components/Navbar";
 import ChatFrom from "@/components/ChatFrom";
 import ChatMessage from "@/components/ChatMessage";
+import { aiResponse } from "./api/chatBot";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
-  
+  const generateBotResponse = async (messages) => {
+    try {
+      const res = await aiResponse(messages);
+      const botResponse =
+        res?.choices[0]?.message?.content ||
+        "Sorry, I couldn't understand that.";
+      setChatHistory((prvChat) => [
+        ...prvChat.filter((msg) => msg.content !== "Thinking..."),
+        { role: "bot", content: botResponse },
+      ]);
+    } catch (error) {
+      toast.error(`${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+
   const handleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
@@ -51,17 +76,25 @@ export default function Home() {
           <Navbar handleMenu={handleMenu} menuOpen={menuOpen} />
         </div>
 
-        <div className={`flex-1 mt-16 mb-6 overflow-y-auto px-4 scrollbar ${menuOpen && "overflow-y-hidden md:overflow-y-auto"}`}>
+        <div
+          className={`flex-1 mt-16 mb-6 overflow-y-auto px-4 scrollbar ${
+            menuOpen && "overflow-y-hidden md:overflow-y-auto"
+          }`}
+        >
           <div className="max-w-6xl mx-auto">
-          {chatHistory.map((chat, index) => (
-            <ChatMessage key={index} chat={chat} />
-          ))}
+            {chatHistory.map((chat, index) => (
+              <ChatMessage key={index} chat={chat} />
+            ))}
           </div>
         </div>
 
         {/* Fixed Chat Form at Bottom */}
         <div className="sticky bottom-4 left-0 right-0">
-          <ChatFrom setChatHistory={setChatHistory} />
+          <ChatFrom
+            chatHistory={chatHistory}
+            setChatHistory={setChatHistory}
+            generateBotResponse={generateBotResponse}
+          />
         </div>
       </div>
     </div>

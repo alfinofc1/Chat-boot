@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 const ChatMessage = ({ chat }) => {
-  console.log(chat);
   return (
     <div className="flex items-start gap-2">
       {chat?.role === "bot" && (
@@ -14,7 +13,7 @@ const ChatMessage = ({ chat }) => {
         />
       )}
       <div className={`${chat?.role === "bot" ? "bot" : "user"}-message `}>
-        <p>{chat.text} Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus aliquid quia officia tenetur, nostrum laudantium minima obcaecati dicta consequuntur nobis sint neque error, tempore eius quasi debitis aut officiis quo.</p>
+        <p>{chat.content}</p>
       </div>
     </div>
   );

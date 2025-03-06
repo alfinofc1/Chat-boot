@@ -5,7 +5,7 @@ import { BsGlobe2 } from "react-icons/bs";
 import { IoIosAttach } from "react-icons/io";
 import { BiSend } from "react-icons/bi";
 
-const ChatForm = ({setChatHistory}) => {
+const ChatForm = ({setChatHistory, generateBotResponse}) => {
   const textareaRef = useRef(null);
   const fileInput = useRef(null);
   const [searchbar, setSearchbar] = useState(false);
@@ -43,8 +43,11 @@ const ChatForm = ({setChatHistory}) => {
     if(!userMessage) return ;
     textareaRef.current.value=''
     // set chat in history
-    setChatHistory((prevChat)=> [...prevChat , {role:'user', text: userMessage}])
-    setTimeout(()=>{setChatHistory((prevChat)=> [...prevChat, {role:"bot", text:"Thinking..."}])}, 400)
+    setChatHistory((prevChat)=> [...prevChat , {role:'user', content: userMessage}])
+    setTimeout(()=>{
+      setChatHistory((prevChat)=> [...prevChat, {role:"bot", content:"Thinking..."}])
+      generateBotResponse({role:'user', content: userMessage})
+    }, 400)
   };
   return (
     <div className="w-full max-w-2xl mx-auto rounded-xl">
