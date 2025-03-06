@@ -4,8 +4,16 @@ import { SiProbot } from "react-icons/si";
 import { BsGlobe2 } from "react-icons/bs";
 import { IoIosAttach } from "react-icons/io";
 import { BiSend } from "react-icons/bi";
+import useChat from "@/hooks/useChat";
 
-const ChatForm = ({setChatHistory, generateBotResponse}) => {
+const ChatForm = ({ generateBotResponse }) => {
+  const {
+    chatHistory,
+    setChatHistory,
+    setNewChat,
+    startNewChat,
+    currentChat,
+  } = useChat();
   const textareaRef = useRef(null);
   const fileInput = useRef(null);
   const [searchbar, setSearchbar] = useState(false);
@@ -37,18 +45,33 @@ const ChatForm = ({setChatHistory, generateBotResponse}) => {
       textarea.removeEventListener("input", handleInput);
     };
   }, []);
+
+  // handleSubmit
   const handleSubmit = (e) => {
     e.preventDefault();
+    setNewChat(false);
     const userMessage = textareaRef.current.value.trim();
-    if(!userMessage) return ;
-    textareaRef.current.value=''
+    if (!userMessage) return;
+    textareaRef.current.value = "";
+    const updatedMessage = [
+      ...chatHistory,
+      { role: "user", content: userMessage },
+    ];
     // set chat in history
-    setChatHistory((prevChat)=> [...prevChat , {role:'user', content: userMessage}])
-    setTimeout(()=>{
-      setChatHistory((prevChat)=> [...prevChat, {role:"bot", content:"Thinking..."}])
-      generateBotResponse({role:'user', content: userMessage})
-    }, 400)
+    if (!currentChat) {
+      startNewChat();
+      setChatHistory(updatedMessage);
+    }
+    setChatHistory(updatedMessage);
+    setTimeout(() => {
+      setChatHistory((prevChat) => [
+        ...prevChat,
+        { role: "bot", content: "Thinking..." },
+      ]);
+      generateBotResponse({ role: "user", content: userMessage });
+    }, 400);
   };
+
   return (
     <div className="w-full max-w-2xl mx-auto rounded-xl">
       <form

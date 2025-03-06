@@ -1,16 +1,24 @@
 "use client";
-import { useState } from "react";
-import Image from "next/image";
-import { IoMdClose } from "react-icons/io";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import ChatFrom from "@/components/ChatFrom";
 import ChatMessage from "@/components/ChatMessage";
 import { aiResponse } from "./api/chatBot";
 import { toast } from "react-toastify";
+import SidebarContent from "@/components/SidebarContent";
+import useChat from "@/hooks/useChat";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [chatHistory, setChatHistory] = useState([]);
+  const { chatHistory, setChatHistory, newChat, setNewChat, saveChatHistory } =
+    useChat();
+  useEffect(() => {
+    // Ensure we're on the client side before calling saveChatHistory
+    if (typeof window !== "undefined" && chatHistory.length) {
+      saveChatHistory(chatHistory); // Save chat history to localStorage
+    }
+  }, [chatHistory]);
+  //ai response
   const generateBotResponse = async (messages) => {
     try {
       const res = await aiResponse(messages);
@@ -41,33 +49,17 @@ export default function Home() {
 
   return (
     <div className="flex h-screen">
+      {/* sideBar */}
       <div
         id="menubar"
         className={`w-56 lg:w-64 h-screen  py-5 px-3 border-r bg-gray-200 dark:bg-[#171717] border-gray-400 dark:border-gray-800 
           ${
             menuOpen
-              ? "block shadow-2xl shadow-gray-700 md:shadow-sm absolute backdrop-brightness-75 z-50"
+              ? "block shadow-2xl shadow-gray-700 md:shadow-sm absolute md:relative backdrop-brightness-75 z-50"
               : "hidden"
           } md:block`}
       >
-        <div className="flex items-center gap-2 relative">
-          <Image
-            src="/assets/logo.png"
-            width={36}
-            height={36}
-            alt="Logo"
-            className="rounded-full dark:bg-white"
-          />
-          <h4 className="text-xl font-semibold font-roboto dark:text-white">
-            Chat Bot
-          </h4>
-          <button
-            onClick={() => setMenuOpen(false)}
-            className="absolute right-0 md:hidden"
-          >
-            <IoMdClose className="size-6 dark:fill-white" />
-          </button>
-        </div>
+        <SidebarContent setMenuOpen={setMenuOpen} setNewChat={setNewChat} />
       </div>
 
       <div className="flex flex-col flex-1 ml-0  relative">
@@ -81,20 +73,25 @@ export default function Home() {
             menuOpen && "overflow-y-hidden md:overflow-y-auto"
           }`}
         >
-          <div className="max-w-6xl mx-auto">
-            {chatHistory.map((chat, index) => (
-              <ChatMessage key={index} chat={chat} />
-            ))}
-          </div>
+          {/* conversetion */}
+          {newChat ? (
+            <div className="absolute top-1/2 right-1/2 transform translate-x-1/2  w-full">
+              <p className="text-xl md:text-2xl lg:text-3xl text-center text-gray-600 dark:text-white font-semibold mx-2">
+                Welcome! Ask me anything, and I&apos;ll do my best to help.
+              </p>
+            </div>
+          ) : (
+            <div className="max-w-6xl mx-auto">
+              {chatHistory.map((chat, index) => (
+                <ChatMessage key={index} chat={chat} />
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Fixed Chat Form at Bottom */}
-        <div className="sticky bottom-4 left-0 right-0">
-          <ChatFrom
-            chatHistory={chatHistory}
-            setChatHistory={setChatHistory}
-            generateBotResponse={generateBotResponse}
-          />
+        {/* Chat input */}
+        <div className="sticky bottom-4 left-0 right-0 mx-2 sm:mx-8">
+          <ChatFrom generateBotResponse={generateBotResponse} />
         </div>
       </div>
     </div>
