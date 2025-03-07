@@ -16,7 +16,6 @@ const ChatProvider = ({ children }) => {
     const newChat = { id: newChatId, name: newChatName, messages: [] };
     const updateSession = [newChat, ...chatSessions];
     setChatSessions(updateSession);
-    localStorage.setItem("chatSessions", JSON.stringify(updateSession));
     setCurrentChat(newChat);
     setChatHistory([]);
   };

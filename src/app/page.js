@@ -13,10 +13,11 @@ export default function Home() {
   const { chatHistory, setChatHistory, newChat, setNewChat, saveChatHistory } =
     useChat();
   useEffect(() => {
-    // Ensure we're on the client side before calling saveChatHistory
+    
     if (typeof window !== "undefined" && chatHistory.length) {
-      saveChatHistory(chatHistory); // Save chat history to localStorage
+      saveChatHistory(chatHistory);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatHistory]);
   //ai response
   const generateBotResponse = async (messages) => {
