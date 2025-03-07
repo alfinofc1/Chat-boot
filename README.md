@@ -4,7 +4,7 @@
 This is a chatbot application built with Next.js, React, and Tailwind CSS. It allows users to chat with an AI assistant, store conversation history, and manage multiple chat sessions. The chatbot generates responses using an AI API.
 
 ## Live URL
-  
+  https://chat-boot-dusky.vercel.app/
 
 ## Features
 - AI-powered chatbot responses
