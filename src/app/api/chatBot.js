@@ -10,11 +10,11 @@ export const aiResponse = async (messages) => {
         messages: [
           messages
         ],
-        model: "EchoGPT",
+        model: "tidy-interface-461003-t6",
       },
       {
         headers: {
-          "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
+          "AIzaSyA-us_KMVI94FhZja9CVnAW5lo0Zo9bFjk": process.env.NEXT_PUBLIC_API_KEY,
         },
       }
     );
